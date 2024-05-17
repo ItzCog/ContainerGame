@@ -34,6 +34,8 @@ void ACGGameMode::Tick(float DeltaSeconds)
 		else
 		{
 			AUnit* CurrentUnit = Units[CurrentUnitIndex];
+
+			// TODO: fix the issue that CurrentUnit could be null
 			if (!bIsCurrentUnitMoving)
 			{
 				CurrentUnit->Move();
@@ -59,6 +61,7 @@ void ACGGameMode::Tick(float DeltaSeconds)
 		
 		if (CurrentUnitIndex == Units.Num())
 		{
+			// TODO: Fix the death unit removal system 
 			TArray<AUnit*> DeadUnits;
 			for (AUnit* Unit : Units)
 			{
