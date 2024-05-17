@@ -62,6 +62,7 @@ void ACGGameMode::Tick(float DeltaSeconds)
 			TArray<AUnit*> DeadUnits;
 			for (AUnit* Unit : Units)
 			{
+				if (!Unit) continue;
 				if (Unit->IsDead())
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Turquoise,
@@ -69,16 +70,16 @@ void ACGGameMode::Tick(float DeltaSeconds)
 					DeadUnits.Add(Unit);
 				}
 			}
-			
-			Units.RemoveAll([](const AUnit* Unit)->bool
-			{
-				return Unit == nullptr;
-			});
 
 			for (AUnit* Unit : DeadUnits)
 			{
 				Unit->Destroy();
 			}
+			
+			Units.RemoveAll([](const AUnit* Unit)->bool
+			{
+				return Unit == nullptr;
+			});
 			
 			EndTurn();
 		}
