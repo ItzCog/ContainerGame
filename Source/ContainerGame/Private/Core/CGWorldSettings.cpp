@@ -4,6 +4,7 @@
 #include "ContainerGame/ContainerGame.h"
 #include "Core/CGGameMode.h"
 #include "Utility/ContainerSpawnLocationInfo.h"
+#include "Utility/DeployAreaMarker.h"
 
 FContainerSpawnLocationInfoHandle ACGWorldSettings::FindFirstAvailableLocationForTeamID(int32 TeamID)
 {
@@ -28,4 +29,9 @@ void ACGWorldSettings::UnoccupyLocationForContainer(const AContainer* Container)
 	}
 
 	UE_LOG(LogCG, Warning, TEXT("Attempted to unoccupy for a container that does not have an occupied location"));
+}
+
+bool ACGWorldSettings::IsLocationInsidePlayerDeployArea(const FVector& Location) const
+{
+	return DeployAreaMarker && DeployAreaMarker->IsLocationInsideArea(Location);
 }

@@ -5,6 +5,7 @@
 #include "Utility/CGLibrary.h"
 #include "Components/CapsuleComponent.h"
 #include "Core/CGGameMode.h"
+#include "Core/CGWorldSettings.h"
 #include "Gameplay/Unit.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -31,8 +32,15 @@ void ACGPlayerController::PlayerTick(float DeltaSeconds)
 		GetHitResultUnderCursor(ECC_GameTraceChannel1, false, HitResult);
 		GetHitResultUnderCursor(ECC_GameTraceChannel2, false, UnitHitResult);
 
+		TArray<TEnumAsByte<EObjectTypeQuery>> DeployAreaMarkerObjectType;
+		TArray<AActor*> OutActors;
+		DeployAreaMarkerObjectType.Add(ObjectTypeQuery1);
+		
 		if (HitResult.bBlockingHit && !UnitHitResult.bBlockingHit
-			&& HitResult.GetActor()->ActorHasTag(FName("BattleArea")))
+			&& HitResult.GetActor()->ActorHasTag(FName("BattleArea"))
+			&& UCGLibrary::GetCGWorldSettings(this)
+			&& UCGLibrary::GetCGWorldSettings(this)->IsLocationInsidePlayerDeployArea(HitResult.ImpactPoint)
+			)
 		{
 			UnitBeingPlaced->SetActorLocation(HitResult.ImpactPoint + FVector::UpVector * UnitHalfHeight);
 			bIsValidPlaceUnitLocation = true;

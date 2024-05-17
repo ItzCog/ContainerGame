@@ -8,6 +8,7 @@
 #include "Utility/ContainerSpawnLocationInfo.h"
 #include "CGWorldSettings.generated.h"
 
+class ADeployAreaMarker;
 class AOpponent;
 
 /**
@@ -20,6 +21,8 @@ class CONTAINERGAME_API ACGWorldSettings : public AWorldSettings
 public:
 	FContainerSpawnLocationInfoHandle FindFirstAvailableLocationForTeamID(int32 TeamID);
 	void UnoccupyLocationForContainer(const AContainer* Container);
+
+	bool IsLocationInsidePlayerDeployArea(const FVector& Location) const;
 	
 private:
 	UPROPERTY(EditAnywhere, Category="Gameplay|Container Spawn")
@@ -28,7 +31,10 @@ private:
 	UPROPERTY(EditAnywhere, Category="Gameplay|Container Spawn")
 	int32 StartingContainerCount = 3;
 
-	UPROPERTY(EditAnywhere, Category="Player")
+	UPROPERTY(EditAnywhere, Category="Gameplay|Environment")
+	ADeployAreaMarker* DeployAreaMarker;
+
+	UPROPERTY(EditAnywhere, Category="Gameplay|Player")
 	AOpponent* Opponent;
 
 public:
