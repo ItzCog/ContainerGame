@@ -35,7 +35,7 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category="Gameplay", BlueprintCallable)
 	void Attack();
 
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintNativeEvent, Category="Gameplay", BlueprintCallable)
 	void FinishPlacement();
 
 	bool IsDead() const;

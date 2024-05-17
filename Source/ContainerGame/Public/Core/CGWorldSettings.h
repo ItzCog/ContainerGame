@@ -20,6 +20,8 @@ class CONTAINERGAME_API ACGWorldSettings : public AWorldSettings
 	GENERATED_BODY()
 public:
 	FContainerSpawnLocationInfoHandle FindFirstAvailableLocationForTeamID(int32 TeamID);
+
+	UFUNCTION(BlueprintCallable)
 	void UnoccupyLocationForContainer(const AContainer* Container);
 
 	bool IsLocationInsidePlayerDeployArea(const FVector& Location) const;
