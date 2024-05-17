@@ -1,0 +1,11 @@
+.vs
+.idea
+
+Binaries
+Build
+DerivedDataCache
+Intermediate
+Saved
+
+.p4ignore
+*.sln
