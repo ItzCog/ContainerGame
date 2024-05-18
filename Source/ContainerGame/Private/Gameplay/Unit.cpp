@@ -15,6 +15,7 @@ AUnit::AUnit()
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
 	Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
+	Capsule->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 	SetRootComponent(Capsule);
 
 	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMesh"));

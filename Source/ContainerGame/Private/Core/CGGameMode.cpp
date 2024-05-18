@@ -61,29 +61,22 @@ void ACGGameMode::Tick(float DeltaSeconds)
 		
 		if (CurrentUnitIndex == Units.Num())
 		{
-			// TODO: Fix the death unit removal system 
-			TArray<AUnit*> DeadUnits;
+			// TODO: Fix the death unit removal system
 			for (AUnit* Unit : Units)
 			{
-				if (!Unit) continue;
+				if (!Unit || Unit->IsActorBeingDestroyed()) continue;
 				if (Unit->IsDead())
 				{
 					GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Turquoise,
 						FString::Printf(TEXT("%ls just died"), *Unit->GetActorLabel()));
-					DeadUnits.Add(Unit);
+					Unit->Destroy();
 				}
-			}
-
-			for (AUnit* Unit : DeadUnits)
-			{
-				Unit->Destroy();
 			}
 			
 			Units.RemoveAll([](const AUnit* Unit)->bool
 			{
 				return Unit == nullptr;
-			});
-			
+			}); 
 			EndTurn();
 		}
 		else
