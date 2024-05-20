@@ -43,6 +43,7 @@ AUnit* UFindTarget::FindTarget()
 
 	for (AUnit* Unit : UCGLibrary::GetCGGameMode(this)->GetUnits())
 	{
+		if (!Unit) continue;
 		if (Unit->GetTeamID() == OwnerUnit->GetTeamID()) continue;
 
 		const float Dist = FVector::Dist(Unit->GetActorLocation(), OwnerUnit->GetActorLocation());
