@@ -33,8 +33,7 @@ void UFindTarget::BeginPlay()
 {
 	Super::BeginPlay();
 
-	OwnerUnit = Cast<AUnit>(GetOwner());
-	ensure(OwnerUnit);
+	OwnerUnit = CastChecked<AUnit>(GetOwner());
 }
 
 AUnit* UFindTarget::FindTarget()

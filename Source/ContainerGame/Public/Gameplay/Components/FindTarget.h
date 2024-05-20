@@ -9,7 +9,7 @@
 
 class AUnit;
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(UnitBehavior), meta=(BlueprintSpawnableComponent) )
 class CONTAINERGAME_API UFindTarget : public UActorComponent
 {
 	GENERATED_BODY()
@@ -31,4 +31,7 @@ private:
 
 	UPROPERTY()
 	AUnit* TargetUnit = nullptr;
+
+	UPROPERTY(EditAnywhere)
+	float Radius = 10000.f;
 };
