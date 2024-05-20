@@ -22,9 +22,12 @@ AUnit* UFindTarget::GetTargetUnit()
 		TargetUnit = FindTarget();
 	}
 
+#if WITH_EDITOR
 	GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Orange,
 		FString::Printf(TEXT("%s targets %s"), *OwnerUnit->GetActorLabel(), *TargetUnit->GetActorLabel())
 		);
+#endif
+	
 	
 	return TargetUnit;
 }
