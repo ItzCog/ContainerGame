@@ -2,7 +2,7 @@
 
 #include "Core/CGWorldSettings.h"
 #include "ContainerGame/ContainerGame.h"
-#include "Core/CGGameMode.h"
+#include "Gameplay/Container.h"
 #include "Utility/ContainerSpawnLocationInfo.h"
 #include "Utility/DeployAreaMarker.h"
 
@@ -28,7 +28,9 @@ void ACGWorldSettings::UnoccupyLocationForContainer(const AContainer* Container)
 		}
 	}
 
-	UE_LOG(LogCG, Warning, TEXT("Attempted to unoccupy for a container that does not have an occupied location"));
+	UE_LOG(LogCG, Warning,
+		TEXT("Attempted to unoccupy for container %s that does not have an occupied location"),
+		*Container->GetName());
 }
 
 bool ACGWorldSettings::IsLocationInsidePlayerDeployArea(const FVector& Location) const

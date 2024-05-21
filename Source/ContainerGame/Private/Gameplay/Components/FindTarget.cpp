@@ -59,7 +59,7 @@ AUnit* UFindTarget::FindTarget()
 			!UKismetSystemLibrary::LineTraceSingle(this,
 				Unit->GetActorLocation(), OwnerUnit->GetActorLocation(),
 				TraceTypeQuery32, false, TArray<AActor*>(),
-				EDrawDebugTrace::Persistent, Hit, true))
+				EDrawDebugTrace::None, Hit, true))
 		{
 			MinDistance = Dist;
 			NewTarget = Unit;
