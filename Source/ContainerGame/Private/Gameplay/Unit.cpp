@@ -60,6 +60,8 @@ float AUnit::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, ACo
 	const int ActualDamage = int(Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser));
 	
 	Health -= ActualDamage;
+
+	OnHealthChanged.Broadcast(Health);
 	return DamageAmount;
 }
 

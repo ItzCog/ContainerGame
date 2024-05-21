@@ -9,6 +9,8 @@
 class UFloatingPawnMovement;
 class UCapsuleComponent;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnUnitHealthChangedSignature, int32, NewHealth);
+
 /**
  * @brief A unit deployed on board; Capable of moving and attacking, has health, etc.
  */
@@ -42,6 +44,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category="Gameplay")
 	bool bCanBeTargeted = true;
+
+	UPROPERTY(BlueprintAssignable, BlueprintReadOnly)
+	FOnUnitHealthChangedSignature OnHealthChanged;
 
 protected:
 	// Called when the game starts or when spawned
