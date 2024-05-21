@@ -7,6 +7,7 @@
 
 #include "Core/CGGameMode.h"
 #include "Gameplay/Unit.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include "Utility/CGLibrary.h"
 
 UFindTarget::UFindTarget()
@@ -23,9 +24,12 @@ AUnit* UFindTarget::GetTargetUnit()
 	}
 
 #if WITH_EDITOR
-	GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Orange,
-		FString::Printf(TEXT("%s targets %s"), *OwnerUnit->GetActorLabel(), *TargetUnit->GetActorLabel())
-		);
+	if (TargetUnit)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Orange,
+			FString::Printf(TEXT("%s targets %s"), *OwnerUnit->GetActorLabel(), *TargetUnit->GetActorLabel())
+			);
+	}
 #endif
 	
 	
@@ -50,13 +54,34 @@ AUnit* UFindTarget::FindTarget()
 		if (Unit->GetTeamID() == OwnerUnit->GetTeamID()) continue;
 
 		const float Dist = FVector::Dist(Unit->GetActorLocation(), OwnerUnit->GetActorLocation());
+		FHitResult Hit;
+		if (Dist < MinDistance && Dist < DetectionRadius &&
+			!UKismetSystemLibrary::LineTraceSingle(this,
+				Unit->GetActorLocation(), OwnerUnit->GetActorLocation(),
+				TraceTypeQuery32, false, TArray<AActor*>(),
+				EDrawDebugTrace::Persistent, Hit, true))
+		{
+			MinDistance = Dist;
+			NewTarget = Unit;
+		}
+	}
+
+	if (NewTarget) return NewTarget;
+
+	for (AUnit* Unit : UCGLibrary::GetCGGameMode(this)->GetUnits())
+	{
+		if (!Unit) continue;
+		if (!Unit->IsStationary()) continue;;
+		if (Unit->GetTeamID() == OwnerUnit->GetTeamID()) continue;
+
+		const float Dist = FVector::Dist(Unit->GetActorLocation(), OwnerUnit->GetActorLocation());
 		if (Dist < MinDistance)
 		{
 			MinDistance = Dist;
 			NewTarget = Unit;
 		}
 	}
-	
+
 	return NewTarget;
 }
 

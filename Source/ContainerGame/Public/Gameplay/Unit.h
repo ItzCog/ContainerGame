@@ -65,10 +65,14 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category="Components")
 	UFloatingPawnMovement* FloatingPawnMovement;
+
+	UPROPERTY(EditAnywhere, Category="Gameplay")
+	bool bIsStationary;
 	
 	bool bIsInAction = false;
 
 public:
 	FORCEINLINE UCapsuleComponent* GetCapsule() const { return Capsule; }
 	FORCEINLINE int32 GetTeamID() const { return TeamID; }
+	FORCEINLINE bool IsStationary() const { return bIsStationary; }
 };

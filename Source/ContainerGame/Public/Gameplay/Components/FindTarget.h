@@ -33,5 +33,5 @@ private:
 	AUnit* TargetUnit = nullptr;
 
 	UPROPERTY(EditAnywhere)
-	float Radius = 10000.f;
+	float DetectionRadius = 10000.f;
 };
