@@ -7,6 +7,7 @@
 #include "UnitMove.generated.h"
 
 
+class USplineComponent;
 class AUnit;
 
 UCLASS( ClassGroup=(UnitBehavior), meta=(BlueprintSpawnableComponent) )
@@ -16,9 +17,10 @@ class CONTAINERGAME_API UUnitMove : public UActorComponent
 
 public:
 	UUnitMove();
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable)
-	void Move();
+	void MoveToLocation(const FVector& Location);
 
 private:
 	virtual void BeginPlay() override;
@@ -26,4 +28,13 @@ private:
 private:
 	UPROPERTY()
 	AUnit* OwnerUnit = nullptr;
+
+	UPROPERTY()
+	USplineComponent* Spline;
+
+	UPROPERTY(EditAnywhere)
+	float StoppingDistance = 0.1f;
+
+	bool bShouldBeMoving = false;
+	FVector MovingTargetLocation;
 };

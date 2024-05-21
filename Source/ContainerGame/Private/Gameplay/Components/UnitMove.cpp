@@ -3,22 +3,52 @@
 
 #include "Gameplay/Components/UnitMove.h"
 
-#include "AIController.h"
-#include "Blueprint/AIBlueprintHelperLibrary.h"
+#include "NavigationPath.h"
+#include "NavigationSystem.h"
+#include "Components/SplineComponent.h"
 #include "Gameplay/Unit.h"
 
 UUnitMove::UUnitMove()
 {
-	PrimaryComponentTick.bCanEverTick = false;
+	PrimaryComponentTick.bCanEverTick = true;
 
+	Spline = CreateDefaultSubobject<USplineComponent>(TEXT("Spline"));
+	Spline->ClearSplinePoints();
 }
 
-void UUnitMove::Move()
+void UUnitMove::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	UAIBlueprintHelperLibrary::SimpleMoveToLocation(
-		OwnerUnit->GetController(),
-		OwnerUnit->GetActorLocation() + OwnerUnit->GetActorForwardVector() * 20.f
-		);
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!bShouldBeMoving) return;
+
+	const FVector MoveDirection =
+				Spline->FindDirectionClosestToWorldLocation(OwnerUnit->GetActorLocation(),
+															ESplineCoordinateSpace::World);
+	OwnerUnit->AddMovementInput(MoveDirection);
+	if (FVector::Dist(OwnerUnit->GetActorLocation(), MovingTargetLocation) <= StoppingDistance)
+	{
+		bShouldBeMoving = false;
+	}
+}
+
+void UUnitMove::MoveToLocation(const FVector& Location)
+{
+	UNavigationPath* Path = UNavigationSystemV1::FindPathToLocationSynchronously(this,
+		OwnerUnit->GetActorLocation(), Location);
+
+	if (Path)
+	{
+		Spline->ClearSplinePoints();
+		TArray<FVector> PathPoints = Path->PathPoints;
+		for (const FVector& Point : PathPoints)
+		{
+			Spline->AddSplinePoint(Point, ESplineCoordinateSpace::World);
+		}
+
+		bShouldBeMoving = true;
+		MovingTargetLocation = PathPoints[PathPoints.Num() - 1];
+	}
 }
 
 void UUnitMove::BeginPlay()
