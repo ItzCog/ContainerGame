@@ -66,10 +66,6 @@ void ACGGameMode::Tick(float DeltaSeconds)
 				if (!Unit || Unit->IsActorBeingDestroyed()) continue;
 				if (Unit->IsDead())
 				{
-#if WITH_EDITOR
-					GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Turquoise,
-						FString::Printf(TEXT("%ls just died"), *Unit->GetActorLabel()));
-#endif
 					Unit->Destroy();
 				}
 			}

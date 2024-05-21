@@ -22,6 +22,7 @@ AUnit::AUnit()
 	SkeletalMesh->SetupAttachment(Capsule);
 
 	FloatingPawnMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
+	
 }
 
 

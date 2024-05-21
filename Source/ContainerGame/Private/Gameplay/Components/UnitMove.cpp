@@ -21,13 +21,16 @@ void UUnitMove::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	if (!bShouldBeMoving) return;
-
+	
 	const FVector MoveDirection =
 				Spline->FindDirectionClosestToWorldLocation(OwnerUnit->GetActorLocation(),
 															ESplineCoordinateSpace::World);
 	OwnerUnit->AddMovementInput(MoveDirection);
-	if (FVector::Dist(OwnerUnit->GetActorLocation(), MovingTargetLocation) <= StoppingDistance)
+	MovingDistance += DeltaTime * OwnerUnit->GetVelocity().Size();
+	if (MovingDistance >= MaxMovingDistance ||
+		FVector::Dist(OwnerUnit->GetActorLocation(), MovingTargetLocation) <= StoppingDistance)
 	{
+		OnFinishedMoving.Broadcast();
 		bShouldBeMoving = false;
 	}
 }
@@ -46,6 +49,7 @@ void UUnitMove::MoveToLocation(const FVector& Location)
 			Spline->AddSplinePoint(Point, ESplineCoordinateSpace::World);
 		}
 
+		MovingDistance = 0.f;
 		bShouldBeMoving = true;
 		MovingTargetLocation = PathPoints[PathPoints.Num() - 1];
 	}

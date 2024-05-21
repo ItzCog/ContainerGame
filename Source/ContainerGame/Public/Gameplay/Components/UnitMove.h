@@ -6,9 +6,10 @@
 #include "Components/ActorComponent.h"
 #include "UnitMove.generated.h"
 
-
 class USplineComponent;
 class AUnit;
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFinishedMovingSignature);
 
 UCLASS( ClassGroup=(UnitBehavior), meta=(BlueprintSpawnableComponent) )
 class CONTAINERGAME_API UUnitMove : public UActorComponent
@@ -22,6 +23,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void MoveToLocation(const FVector& Location);
 
+	UPROPERTY(BlueprintAssignable)
+	FOnFinishedMovingSignature OnFinishedMoving;
+
 private:
 	virtual void BeginPlay() override;
 	
@@ -32,9 +36,13 @@ private:
 	UPROPERTY()
 	USplineComponent* Spline;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Gameplay")
+	float MaxMovingDistance = 30.f;
+
+	UPROPERTY(EditAnywhere, Category="Gameplay")
 	float StoppingDistance = 0.1f;
 
+	float MovingDistance = 0.f;
 	bool bShouldBeMoving = false;
 	FVector MovingTargetLocation;
 };
