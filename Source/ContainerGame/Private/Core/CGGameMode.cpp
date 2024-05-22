@@ -55,6 +55,7 @@ void ACGGameMode::Tick(float DeltaSeconds)
 			bHaveUnitsAttacked = true;
 			for (AUnit* Unit : Units)
 			{
+				if (!Unit) continue;
 				Unit->Attack();
 			}
 		}
