@@ -34,8 +34,7 @@ void ACGGameMode::Tick(float DeltaSeconds)
 		else
 		{
 			AUnit* CurrentUnit = Units[CurrentUnitIndex];
-
-			// TODO: fix the issue that CurrentUnit could be null
+			
 			if (!bIsCurrentUnitMoving)
 			{
 				CurrentUnit->Move();

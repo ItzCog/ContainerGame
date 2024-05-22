@@ -22,7 +22,6 @@ AUnit::AUnit()
 	SkeletalMesh->SetupAttachment(Capsule);
 
 	FloatingPawnMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
-	
 }
 
 
@@ -30,8 +29,6 @@ void AUnit::FinishPlacement_Implementation()
 {
 	UCGLibrary::GetCGGameMode(this)->AddUnit(this);
 	Capsule->SetCollisionResponseToChannel(ECC_GameTraceChannel2, ECR_Block);
-	GEngine->AddOnScreenDebugMessage(-1, 4.f, FColor::Orange,
-		FString::Printf(TEXT("%s ready"), *GetName()));
 }
 
 bool AUnit::IsDead() const

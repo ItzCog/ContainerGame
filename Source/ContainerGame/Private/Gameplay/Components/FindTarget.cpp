@@ -18,7 +18,7 @@ UFindTarget::UFindTarget()
 
 AUnit* UFindTarget::GetTargetUnit()
 {
-	if (!TargetUnit)
+	if (!TargetUnit || TargetUnit->IsPendingKill())
 	{
 		TargetUnit = FindTarget();
 	}
