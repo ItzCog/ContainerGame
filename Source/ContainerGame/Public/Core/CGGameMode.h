@@ -83,7 +83,7 @@ protected:
 private:
 	void StartBattle();
 	
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	TArray<AUnit*> Units;
 	
 	EGamePhase GamePhase = EGamePhase::PlayerSelectingContainer;
@@ -96,6 +96,7 @@ private:
 		HandlingStatusEffects, Cleanup
 	};
 
+	void CleanUpDeadUnits();
 	void EndTurn();
 	void SpawnContainerForClassAndInfo(TSubclassOf<AContainer> ContainerClass, const FContainerSpawnLocationInfoHandle& InfoHandle) const;
 	

@@ -62,25 +62,13 @@ void ACGGameMode::Tick(float DeltaSeconds)
 		
 		if (CurrentUnitIndex == Units.Num())
 		{
-			for (AUnit* Unit : Units)
-			{
-				if (!Unit || Unit->IsActorBeingDestroyed()) continue;
-				if (Unit->IsDead())
-				{
-					Unit->Destroy();
-				}
-			}
-			
-			Units.RemoveAll([](const AUnit* Unit)->bool
-			{
-				return Unit == nullptr;
-			}); 
+			CleanUpDeadUnits(); 
 			EndTurn();
 		}
 		else
 		{
 			const AUnit* CurrentUnit = Units[CurrentUnitIndex];
-			if (!CurrentUnit->IsInAction())
+			if (!CurrentUnit || !CurrentUnit->IsInAction())
 			{
 				++CurrentUnitIndex;
 			}
@@ -229,6 +217,23 @@ void ACGGameMode::StartBattle()
 		}
 	}
 	
+}
+
+void ACGGameMode::CleanUpDeadUnits()
+{
+	for (AUnit* Unit : Units)
+	{
+		if (!Unit || Unit->IsActorBeingDestroyed()) continue;
+		if (Unit->IsDead())
+		{
+			Unit->Destroy();
+		}
+	}
+			
+	Units.RemoveAll([](const AUnit* Unit)->bool
+	{
+		return !Unit || Unit->IsPendingKill();
+	});
 }
 
 void ACGGameMode::EndTurn()
