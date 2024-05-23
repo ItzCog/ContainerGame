@@ -18,7 +18,7 @@ UFindTarget::UFindTarget()
 
 AUnit* UFindTarget::GetTargetUnit()
 {
-	if (!TargetUnit || TargetUnit->IsPendingKill())
+	if (bIsTargetTemporary || !TargetUnit || TargetUnit->IsPendingKill())
 	{
 		TargetUnit = FindTarget();
 	}
@@ -37,6 +37,8 @@ AUnit* UFindTarget::FindTarget()
 {
 	float MinDistance = std::numeric_limits<float>::max();
 	AUnit* NewTarget = nullptr;
+
+	bIsTargetTemporary = false;
 
 	for (AUnit* Unit : UCGLibrary::GetCGGameMode(this)->GetUnits())
 	{
@@ -58,10 +60,12 @@ AUnit* UFindTarget::FindTarget()
 
 	if (NewTarget) return NewTarget;
 
+	bIsTargetTemporary = true;
+
 	for (AUnit* Unit : UCGLibrary::GetCGGameMode(this)->GetUnits())
 	{
 		if (!Unit) continue;
-		if (!Unit->IsStationary()) continue;;
+		if (!Unit->IsStationary()) continue;
 		if (Unit->GetTeamID() == OwnerUnit->GetTeamID()) continue;
 
 		const float Dist = FVector::Dist(Unit->GetActorLocation(), OwnerUnit->GetActorLocation());

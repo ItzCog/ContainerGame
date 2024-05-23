@@ -25,6 +25,8 @@ protected:
 
 private:
 	AUnit* FindTarget();
+
+	bool bIsTargetTemporary = false;
 	
 	UPROPERTY()
 	AUnit* OwnerUnit = nullptr;
