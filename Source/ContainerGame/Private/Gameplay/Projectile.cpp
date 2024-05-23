@@ -46,7 +46,7 @@ void AProjectile::ProjectileImpact(UPrimitiveComponent* OverlappedComponent, AAc
 		this, UDamageType::StaticClass());
 
 	Destroy();
-	OnProjectileDestroy.Broadcast();
+	OnProjectileDestroy.Execute();
 }
 
 

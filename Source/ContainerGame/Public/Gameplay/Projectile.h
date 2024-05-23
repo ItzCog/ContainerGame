@@ -8,7 +8,7 @@
 
 class USphereComponent;
 class UProjectileMovementComponent;
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnProjectileDestroySignature);
+DECLARE_DYNAMIC_DELEGATE(FOnProjectileDestroySignature);
 
 /**
  * @brief A projectile, typically spawned by a unit.
@@ -21,8 +21,7 @@ class CONTAINERGAME_API AProjectile : public AActor
 public:	
 	AProjectile();
 	virtual void Tick(float DeltaTime) override;
-
-	UPROPERTY(BlueprintAssignable)
+	
 	FOnProjectileDestroySignature OnProjectileDestroy;
 
 	UFUNCTION(BlueprintCallable)

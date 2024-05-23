@@ -39,7 +39,8 @@ UCGGameInstance* UCGLibrary::GetCGGameInstance(const UObject* WorldContextObject
 }
 
 AProjectile* UCGLibrary::SpawnProjectile(const UObject* WorldContextObject, TSubclassOf<AProjectile> ProjectileClass,
-	const FTransform& Transform, int32 TeamID, APawn* Instigator)
+                                         const FTransform& Transform, int32 TeamID, APawn* Instigator,
+                                         const FOnProjectileDestroySignature& OnProjectileDestroyedDelegate)
 {
 	if (!WorldContextObject) return nullptr;
 	
@@ -49,6 +50,8 @@ AProjectile* UCGLibrary::SpawnProjectile(const UObject* WorldContextObject, TSub
 	AProjectile* Projectile =
 		World->SpawnActorDeferred<AProjectile>(ProjectileClass, Transform, Instigator, Instigator);
 	if (!Projectile) return nullptr;
+
+	Projectile->OnProjectileDestroy = OnProjectileDestroyedDelegate;
 
 	Projectile->InitProjectile(TeamID);
 	Projectile->FinishSpawning(Transform);

@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Gameplay/Projectile.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "CGLibrary.generated.h"
 
@@ -39,7 +40,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	static AProjectile* SpawnProjectile(const UObject* WorldContextObject, TSubclassOf<AProjectile> ProjectileClass,
-										const FTransform& Transform, int32 TeamID, APawn* Instigator);
+	                                    const FTransform& Transform, int32 TeamID, APawn* Instigator,
+	                                    const FOnProjectileDestroySignature& OnProjectileDestroyedDelegate);
 	
 	template<typename T>
 	static void ShuffleArray(TArray<T>& Array);
