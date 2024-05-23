@@ -8,6 +8,9 @@
 
 class UBoxComponent;
 
+/**
+ * @brief Used to mark the area where the player can place their container.
+ */
 UCLASS()
 class CONTAINERGAME_API ADeployAreaMarker : public AActor
 {

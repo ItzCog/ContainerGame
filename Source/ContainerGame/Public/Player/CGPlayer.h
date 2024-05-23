@@ -11,6 +11,9 @@ class USphereComponent;
 class UCameraComponent;
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStatsChangeSignature, int32, NewStat);
 
+/**
+ * @brief The player in the level.
+ */
 UCLASS()
 class CONTAINERGAME_API ACGPlayer : public APawn
 {

@@ -8,6 +8,9 @@
 
 class AContainer;
 
+/**
+ * @brief The CPU opponent, including its behavior and appearance.
+ */
 UCLASS()
 class CONTAINERGAME_API AOpponent : public AActor
 {
