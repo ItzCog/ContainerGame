@@ -1,4 +1,5 @@
 .vs
+.vscode
 .idea
 
 Binaries
@@ -6,6 +7,8 @@ Build
 DerivedDataCache
 Intermediate
 Saved
+
+Doxyfile
 
 .p4ignore
 *.sln

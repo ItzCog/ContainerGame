@@ -16,6 +16,7 @@ AUnit::AUnit()
 
 	Capsule = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
 	Capsule->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+	Capsule->SetCanEverAffectNavigation(false);
 	SetRootComponent(Capsule);
 
 	SkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMesh"));

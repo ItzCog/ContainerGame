@@ -121,8 +121,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	FORCEINLINE TArray<AUnit*> GetUnits() const { return Units; }
-	
-	FORCEINLINE void AddUnit(AUnit* InUnit) { Units.Add(InUnit); }
-	
-	FORCEINLINE void RemoveUnit(AUnit* InUnit) { Units.Remove(InUnit); }
+
+	UFUNCTION(BlueprintCallable)
+	void AddUnit(AUnit* InUnit) { Units.Add(InUnit); }
+
+	UFUNCTION(BlueprintCallable)
+	void RemoveUnit(AUnit* InUnit) { Units.Remove(InUnit); }
 };
